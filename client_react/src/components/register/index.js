@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { handleRegisteredUser } from "../../fetcher/login/index";
+import { handleRegisteredUser } from "../../fetcher/register/index";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -18,8 +18,20 @@ const Register = () => {
     setEmail(event.target.value);
   };
 
-  const handleRegisteredbutton = () => {
-    handleRegisteredUser();
+  const handleRegisteredbutton = async () => {
+
+    try {
+      const userData = {
+        username: username,
+        password: password,
+        email: email
+      };
+  
+      const response = await handleRegisteredUser(userData);
+      console.log("Registration successful", response);
+    } catch (error) {
+      console.log("Registration failed", error);
+    }
   };
 
   return (
@@ -46,7 +58,7 @@ const Register = () => {
         </label>
         <br />
 
-        <button type="button" onClick={handleRegisteredbutton()}>
+        <button type="button" onClick={handleRegisteredbutton}>
           Register
         </button>
       </form>
