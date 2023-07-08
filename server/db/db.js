@@ -1,47 +1,74 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const connectToDatabase = async (dbURI) => {
-  try {
-    let connection = await mongoose.connect(dbURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-    });
-    return connection;
-  } catch (error) {
-    return Promise.(error);
-  }
-};
+dotenv.config();
 
-const connectToDatabaseUpdated = async (dbURI) => {
-  return await mongoose.connect(dbURI, {
+const connectToDatabaseUpdated = async () => {
+  return await mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
   });
 };
 
-const get = async (id) => {
+const getByID = async (id) => {
   try {
-    //await connectToDatabaseUpdated();
-
-    await connectToDatabase();
+    await connectToDatabaseUpdated();
+    const result = await YourModel.findById(id);
+    console.log(result);
+    await mongoose.connection.close();
+    return result;
   } catch (error) {
-    console.log("I am here");
+    console.log(error);
+    return error;
   }
-
-  //get from db
-  //return results
 };
 
-const write = () => {};
+const write = async (data) => {
+  try {
+    await connectToDatabaseUpdated();
+    const result = await YourModel.create(data);
+    console.log(result);
+    await mongoose.connection.close();
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
-const list = () => {};
+const update = async (id, updateData) => {
+  try {
+    await connectToDatabaseUpdated();
+    const result = await YourModel.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
+    console.log(result);
+    await mongoose.connection.close();
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
-const update = () => {};
+const list = async () => {
+  try {
+    await connectToDatabaseUpdated();
+    const results = await YourModel.find();
+    console.log(results);
+    await mongoose.connection.close();
+    return results;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export { getByID, write, update, list };
 
 export default {
-  get,
+  getByID,
   write,
   list,
   update,
