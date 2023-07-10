@@ -1,20 +1,21 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import User from "../model/User";
 
 dotenv.config();
 
 const connectToDatabaseUpdated = async () => {
-  return await mongoose.connect(process.env.DB_URI, {
+  await mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
   });
 };
 
-const getByID = async (id) => {
+const getById = async (Id) => {
   try {
     await connectToDatabaseUpdated();
-    const result = await YourModel.findById(id);
+    const result = await User.findById(Id);
     console.log(result);
     await mongoose.connection.close();
     return result;
@@ -27,7 +28,7 @@ const getByID = async (id) => {
 const write = async (data) => {
   try {
     await connectToDatabaseUpdated();
-    const result = await YourModel.create(data);
+    const result = await User.create(data);
     console.log(result);
     await mongoose.connection.close();
     return result;
@@ -40,7 +41,7 @@ const write = async (data) => {
 const update = async (id, updateData) => {
   try {
     await connectToDatabaseUpdated();
-    const result = await YourModel.findByIdAndUpdate(id, updateData, {
+    const result = await User.findByIdAndUpdate(id, updateData, {
       new: true,
     });
     console.log(result);
@@ -55,7 +56,7 @@ const update = async (id, updateData) => {
 const list = async () => {
   try {
     await connectToDatabaseUpdated();
-    const results = await YourModel.find();
+    const results = await User.find();
     console.log(results);
     await mongoose.connection.close();
     return results;
@@ -65,11 +66,17 @@ const list = async () => {
   }
 };
 
-export { getByID, write, update, list };
-
-export default {
-  getByID,
-  write,
-  list,
-  update,
+const getByEmail = async (email) => {
+  try {
+    await connectToDatabaseUpdated();
+    const result = await User.findOne({ email });
+    console.log(result);
+    await mongoose.connection.close();
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };
+
+export { getById, write, update, list, getByEmail };
