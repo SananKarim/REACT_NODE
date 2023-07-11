@@ -1,12 +1,15 @@
-const post = async (URL, body={}) => {
+const post = async (URL, body = {}) => {
+  console.log("testing 1");
   const response = await fetch(URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: body,
+    body: JSON.stringify(body),
   });
-  return response
+
+  console.log(" testiing");
+  return response;
 };
 
-export default { post };
+export default post;

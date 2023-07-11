@@ -13,14 +13,14 @@ const App = () => {
               <Link to="/login">Login</Link>
             </li>
             <li>
-              <Link to="/register">Register</Link>
+              <Link to="/signup">Register</Link>
             </li>
           </ul>
         </nav>
 
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Register />} />
         </Routes>
       </div>
     </Router>

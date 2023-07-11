@@ -28,6 +28,7 @@ const Register = () => {
       };
   
       const response = await handleRegisteredUser(userData);
+      
       console.log("Registration successful", response);
     } catch (error) {
       console.log("Registration failed", error);

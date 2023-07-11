@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import User from "../model/User";
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const User = require("../model/User");
 
 dotenv.config();
 
@@ -8,7 +8,6 @@ const connectToDatabaseUpdated = async () => {
   await mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
   });
 };
 
@@ -79,4 +78,10 @@ const getByEmail = async (email) => {
   }
 };
 
-export { getById, write, update, list, getByEmail };
+module.exports = {
+  getById,
+  write,
+  update,
+  list,
+  getByEmail,
+};
