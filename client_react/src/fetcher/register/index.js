@@ -1,17 +1,13 @@
 import post from "../../http/post";
 import config from "../config";
 
-export async function handleRegisteredUser(data) {
-  try {
-    console.log("i am here", config.REGISTERED_USER_URL, data);
-    const response = await post(config.REGISTERED_USER_URL, data);
-
-    console.log("response.data", response);
-    return response;
-  } catch (error) {
-    console.log(" here");
-
-    return Promise.reject(error);
-    console.log(error);
-  }
+export function handleRegisteredUser(data) {
+  return post(config.REGISTERED_USER_URL, data)
+    .then((response) => {
+      console.log(response.json());
+      return response.json();
+    })
+    .catch((error) => {
+      return Promise.reject(error);
+    });
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { handleRegisteredUser } from "../../fetcher/register/index";
+import "./style.css";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -19,16 +20,18 @@ const Register = () => {
   };
 
   const handleRegisteredbutton = async () => {
-
     try {
       const userData = {
         username: username,
         password: password,
-        email: email
+        email: email,
       };
-  
+
       const response = await handleRegisteredUser(userData);
-      
+      // setUsername("");
+      // setPassword("");
+      // setEmail("");
+
       console.log("Registration successful", response);
     } catch (error) {
       console.log("Registration failed", error);
@@ -36,7 +39,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="register-container">
       <h2>Register</h2>
       <form>
         <label>
@@ -45,17 +48,18 @@ const Register = () => {
         </label>
         <br />
         <label>
+          Email:
+          <input type="email" value={email} onChange={handleEmailChange} />
+        </label>
+
+        <br />
+        <label>
           Password:
           <input
             type="password"
             value={password}
             onChange={handlePasswordChange}
           />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input type="email" value={email} onChange={handleEmailChange} />
         </label>
         <br />
 
