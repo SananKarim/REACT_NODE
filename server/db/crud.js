@@ -3,26 +3,26 @@
 const User = require("../model/User");
 const { connectToDatabase } = require("./db");
 
-  
-
 const getById = async (Id) => {
   try {
-    connectToDatabase()
+    connectToDatabase();
     const result = await User.findById(Id);
     console.log(result);
+    closeDatabaseConnection();
     return result;
   } catch (error) {
     console.log(error);
+    closeDatabaseConnection();
     return error;
   }
 };
 
 const write = async (data) => {
   try {
-    connectToDatabase()
+    connectToDatabase();
     console.log(data);
     const result = await User.create(data);
-    console.log(result,"this is resukt section");
+    console.log(result, "this is result section");
     return result;
   } catch (error) {
     console.log(error);
@@ -32,7 +32,7 @@ const write = async (data) => {
 
 const update = async (id, updateData) => {
   try {
-    connectToDatabase()
+    connectToDatabase();
     const result = await User.findByIdAndUpdate(id, updateData, {
       new: true,
     });
@@ -46,7 +46,7 @@ const update = async (id, updateData) => {
 
 const list = async () => {
   try {
-    connectToDatabase()
+    connectToDatabase();
     const results = await User.find();
     console.log(results);
     return results;
@@ -58,12 +58,12 @@ const list = async () => {
 
 const getByEmail = async (email) => {
   try {
-    connectToDatabase()
+    connectToDatabase();
     const result = await User.findOne({ email });
     console.log(result, "testing email in db email function");
     return result;
   } catch (error) {
-    console.log(error);
+    console.log(error, "in else error");
     return error;
   }
 };

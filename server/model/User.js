@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    unique: true,
     required: true,
   },
   email: {
@@ -25,7 +24,6 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.statics.login = async function (email, password) {
-  
   const user = await this.findOne({ email });
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
@@ -36,6 +34,9 @@ userSchema.statics.login = async function (email, password) {
   }
   throw Error("Invalid Email & Password");
 };
+
+
+
 
 const User = mongoose.model("user", userSchema);
 

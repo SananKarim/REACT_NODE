@@ -15,8 +15,14 @@ const connectToDatabase = async () => {
     throw error;
   }
 };
+const closeDatabaseConnection = async () => {
+  if (dbConnection) {
+    await dbConnection.disconnect(); // Close the database connection
+    console.log("Disconnected from MongoDB");
+  }
+};
 
 module.exports = {
   connectToDatabase,
-  mongoose, // Export the connected mongoose instance
+  closeDatabaseConnection,
 };
