@@ -32,9 +32,9 @@ const Register = () => {
       // setPassword("");
       // setEmail("");
 
-      console.log("Registration successful", response);
+      console.log(response, "this is it");
     } catch (error) {
-      console.log("Registration failed", error);
+      console.log(error);
     }
   };
 

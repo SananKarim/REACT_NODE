@@ -4,8 +4,8 @@ import config from "../config";
 export function handleRegisteredUser(data) {
   return post(config.REGISTERED_USER_URL, data)
     .then((response) => {
-      console.log(response.json());
-      return response.json();
+      
+      return response;
     })
     .catch((error) => {
       return Promise.reject(error);

@@ -1,20 +1,28 @@
 const post = async (URL, body = {}) => {
   console.log("this is in post");
   const response = await fetch(URL, {
-    // Corrected 'await' statement here by adding 'fetch' function
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
+
+  console.log(response, "this is post response");
+
   if (!response.ok) {
     const error = await response.json();
-    console.log("response.error", error.error);
-    throw new Error(`Status: ${response.status} Details: ${JSON.stringify(error.error)}`);
+
+    // Split the error string into an array
+
+    throw {
+      status: response.status,
+      error: error.error, // Assuming error.error is already an array
+    };
   }
 
-  return response;
+  const data = await response.json();
+  return data;
 };
 
 export default post;
