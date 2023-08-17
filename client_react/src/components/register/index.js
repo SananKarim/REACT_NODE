@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { handleRegisteredUser } from "../../fetcher/register/index";
+import { useNavigate } from "react-router-dom";
+
 import "./style.css";
 
 const Register = () => {
@@ -11,6 +13,7 @@ const Register = () => {
   const [emailError, setEmailError] = useState("");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [registrationId, setRegistrationId] = useState("");
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -36,38 +39,47 @@ const Register = () => {
       };
 
       const response = await handleRegisteredUser(userData);
-      console.log(response.success);
-      if (response.success) {
+      console.log(response);
+      if (response) {
         setRegistrationSuccess(true);
         setRegistrationId(response.id);
-      }
 
-      console.log(response, "this is it");
+        setTimeout(() => {
+          navigate("/login"); // Redirect to the login page after 3 seconds
+        }, 2000);
+      }
     } catch (error) {
-      console.log(error.error, "this is component");
-      if (error.error) {
-        error.error.forEach((errorMsg) => {
-          if (errorMsg === '"username" is not allowed to be empty') {
-            setUsernameError("Username is required");
+      switch (error.status) {
+        case 422:
+          if (error.error) {
+            error.error.forEach((errorMsg) => {
+              if (errorMsg === '"username" is not allowed to be empty') {
+                setUsernameError("Username is required");
+              }
+              if (errorMsg === '"email" is not allowed to be empty') {
+                setEmailError("Email is required");
+              }
+              if (errorMsg === '"password" is not allowed to be empty') {
+                setPasswordError("Password is required");
+              }
+              if (errorMsg === '"email" must be a valid email') {
+                setEmailError("Enter a valid Email");
+              }
+              if (
+                errorMsg ===
+                '"password" length must be at least 4 characters long'
+              ) {
+                setPasswordError("Password must be at least 4 characters long");
+              }
+            });
           }
-          if (errorMsg === '"email" is not allowed to be empty') {
-            setEmailError("Email is required");
-          }
-          if (errorMsg === '"password" is not allowed to be empty') {
-            setPasswordError("Password is required");
-          }
-          if (errorMsg === '"email" must be a valid email') {
-            setEmailError("Enter a valid Email");
-          }
-          if (
-            errorMsg === '"password" length must be at least 4 characters long'
-          ) {
-            setPasswordError("Password must be at least 4 characters long");
-          }
-          if (errorMsg === "User already exists.") {
-            setPasswordError("user already exists");
-          }
-        });
+          break;
+        case 409:
+          setPasswordError("user already exists");
+          break;
+        default:
+          setPasswordError("Try again.");
+          break;
       }
     }
   };

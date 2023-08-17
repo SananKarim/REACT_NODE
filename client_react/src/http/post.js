@@ -1,5 +1,4 @@
 const post = async (URL, body = {}) => {
-  console.log("this is in post");
   const response = await fetch(URL, {
     method: "POST",
     headers: {
@@ -7,18 +6,13 @@ const post = async (URL, body = {}) => {
     },
     body: JSON.stringify(body),
   });
-
   if (!response.ok) {
     const error = await response.json();
-
-    // Split the error string into an array
-    console.log(error, "this is post");
     throw {
       status: response.status,
-      error: error.error, // Assuming error.error is already an array
+      error: error.error, 
     };
   }
-
   const data = await response.json();
   return data;
 };

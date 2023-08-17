@@ -10,8 +10,7 @@ module.exports.signup_post = async (req, res) => {
     const checking = await getByEmail(userData.email);
 
     if (checking != null) {
-      console.log("User already exist");
-      return res.status(409).json({ error: "User already exists." });
+      return res.status(409).json({errortype: "DB errror", error: "User already exists." });
     } else {
       const result = await write(userData);
       console.log("new ID: " + result._id + " is created");

@@ -7,6 +7,7 @@ function validateRequest(req, res, next) {
   if (error) {
     const errorMessages = error.details.map((detail) => detail.message);
     return res.status(422).json({
+      errortype: "joi validation",
       error: errorMessages,
     });
   } else {

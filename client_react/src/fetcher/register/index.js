@@ -7,7 +7,6 @@ export function handleRegisteredUser(data) {
       return response;
     })
     .catch((error) => {
-      console.log(error,"this is fetcher");
       return Promise.reject(error);
     });
 }
